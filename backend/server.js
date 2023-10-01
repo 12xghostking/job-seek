@@ -132,18 +132,23 @@ app.post('/api/create-job', async (req, res) => {
 app.post('/api/upload-resume', upload.single('resume'), async (req, res) => {
   try {
     const { originalname } = req.file;
-  
-    // You can access the user's name or ID from the request, e.g., req.query.userName
     const uploadedBy = req.query.userName;
 
-    // Create a new resume document with the file path and user information
-    const newResume = new ResumeModel({
-      filePath: originalname,
-      uploadedBy,
-    });
+    // Check if a resume with the same username exists
+    const existingResume = await ResumeModel.findOne({ uploadedBy });
 
-    // Save the resume document to the database
-    await newResume.save();
+    if (existingResume) {
+      // If a resume with the same username exists, update its filePath
+      existingResume.filePath = originalname;
+      await existingResume.save();
+    } else {
+      // If no resume with the same username exists, create a new one
+      const newResume = new ResumeModel({
+        filePath: originalname,
+        uploadedBy,
+      });
+      await newResume.save();
+    }
 
     res.status(201).json({ message: 'Resume uploaded successfully' });
   } catch (error) {
@@ -151,6 +156,7 @@ app.post('/api/upload-resume', upload.single('resume'), async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 app.get('/api/fetch-resume/:userName', async (req, res) => {
   try {
     const userName = req.params.userName;
