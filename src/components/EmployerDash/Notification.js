@@ -15,7 +15,7 @@ const Notifications = () => {
   useEffect(() => {
     // Fetch job seekers for the particular employer
     axios
-      .get(`http://localhost:5000/api/employers/jobseekers?employerName=${employerName}`)
+      .get(`https://job-seeker-nb9v.onrender.com/api/employers/jobseekers?employerName=${employerName}`)
       .then((response) => {
         // Extract the userName values from the response data
         const userNames = response.data.map((jobSeeker) => jobSeeker.userName);
@@ -50,7 +50,7 @@ const Notifications = () => {
     if (selectedJobSeeker && notification) {
       // Send the notification to the selected job seeker
       axios
-        .post('http://localhost:5000/api/notifications/send', {
+        .post('https://job-seeker-nb9v.onrender.com/api/notifications/send', {
           description: notification,
           receivedFrom: employerName, // Replace with the actual employer name
           receivedBy: selectedJobSeeker.userName,
