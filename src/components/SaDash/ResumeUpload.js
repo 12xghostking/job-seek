@@ -33,7 +33,7 @@ const ResumeUpload = () => {
   
       try {
         const userName = seekerName;
-        await axios.post(`http://localhost:5000/api/upload-resume?userName=${userName}`, formData);
+        await axios.post(`https://job-seeker-nb9v.onrender.com/api/upload-resume?userName=${userName}`, formData);
   
         alert('Resume uploaded successfully.');
         setFile(null);
