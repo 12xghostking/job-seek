@@ -14,7 +14,7 @@ const ApplicationApproval = () => {
   useEffect(() => {
     // Fetch approved applications by employer name (replace 'yourEmployerName' with the actual employer name)
     axios
-      .get(`http://localhost:5000/api/approved-applications?employerName=${employerName}`)
+      .get(`https://job-seeker-nb9v.onrender.com/api/approved-applications?employerName=${employerName}`)
       .then((response) => {
         console.log('Approved applications:', response.data);
         setApprovedApplications(response.data);
@@ -36,7 +36,7 @@ const ApplicationApproval = () => {
   
     // Make a POST request to remove the application
     axios
-      .post('http://localhost:5000/api/remove-application', {
+      .post('https://job-seeker-nb9v.onrender.com/api/remove-application', {
         userName: selectedApplicant.userName,
         jobAppliedTo: selectedApplicant.jobAppliedTo,
       })
@@ -45,7 +45,7 @@ const ApplicationApproval = () => {
   
         // Fetch the updated list of approved applications
         axios
-          .get(`http://localhost:5000/api/approved-applications?employerName=${employerName}`)
+          .get(`https://job-seeker-nb9v.onrender.com/api/approved-applications?employerName=${employerName}`)
           .then((response) => {
             console.log('Updated approved applications:', response.data);
             setApprovedApplications(response.data);
@@ -68,7 +68,7 @@ const ApplicationApproval = () => {
   
     // Make a POST request to approve the application
     axios
-      .post('http://localhost:5000/api/approve-application', {
+      .post('https://job-seeker-nb9v.onrender.com/api/approve-application', {
         userName: selectedApplicant.userName,
         jobAppliedTo: selectedApplicant.jobAppliedTo,
       })
@@ -77,7 +77,7 @@ const ApplicationApproval = () => {
   
         // Fetch the updated list of approved applications
         axios
-          .get(`http://localhost:5000/api/approved-applications?employerName=${employerName}`)
+          .get(`https://job-seeker-nb9v.onrender.com/api/approved-applications?employerName=${employerName}`)
           .then((response) => {
             console.log('Updated approved applications:', response.data);
             setApprovedApplications(response.data);
