@@ -10,7 +10,7 @@ const Notifications = () => {
   useEffect(() => {
     // Fetch notifications for the specific user (replace with your API URL)
     axios
-      .get(`http://localhost:5000/api/notifications/${username}`)
+      .get(`https://job-seeker-nb9v.onrender.com/api/notifications/${username}`)
       .then((response) => {
         setNotifications(response.data);
       })
@@ -22,7 +22,7 @@ const Notifications = () => {
   const handleRemoveNotification = (description, username) => {
     // Send a DELETE request to remove notifications by description and username
     axios
-      .delete('http://localhost:5000/api/notifications/remove', {
+      .delete('https://job-seeker-nb9v.onrender.com/api/notifications/remove', {
         data: { description, username },
       })
       .then((response) => {
