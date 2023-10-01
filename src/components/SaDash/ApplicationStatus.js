@@ -18,7 +18,7 @@ const ApplicationsStatus = () => {
   // Fetch applications from the backend when the component mounts
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/applicants?userName=${userName}`) // Replace with your backend API URL
+      .get(`https://job-seeker-nb9v.onrender.com/api/applicants?userName=${userName}`) // Replace with your backend API URL
       .then((response) => {
         
         setApplications(response.data);
@@ -63,7 +63,7 @@ const ApplicationsStatus = () => {
     const removeApplication = () => {
       // Send a DELETE request to the backend to remove the application
       axios
-        .delete('http://localhost:5000/api/applicants/remove', {
+        .delete('https://job-seeker-nb9v.onrender.com/api/applicants/remove', {
           data: { userName: userName, jobTitle: selectedApplication.jobAppliedTo },
         })
         .then((response) => {
