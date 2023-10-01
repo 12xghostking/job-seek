@@ -35,7 +35,7 @@ const CreateJobForm = () => {
             };
 
             // Send a POST request to the backend route to create a job
-            const response = await axios.post('http://localhost:5000/api/create-job', jobDetailsWithEmployer);
+            const response = await axios.post('https://job-seeker-nb9v.onrender.com/api/create-job', jobDetailsWithEmployer);
 
             // Handle a successful response (e.g., show a success message)
             console.log(response.data);
