@@ -30,7 +30,7 @@ const SignUp = () => {
       return; // Prevent further execution
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/signup', {
+      const response = await axios.post('https://job-seeker-nb9v.onrender.com/api/signup', {
         role,
         name,
         email,
