@@ -21,7 +21,7 @@ const ApplicationsList = () => {
   useEffect(() => {
     // Fetch applicants for the particular employer
     axios
-      .get(`http://localhost:5000/api/employer/applicants?employerName=${employerName}`)
+      .get(`https://job-seeker-nb9v.onrender.com/api/employer/applicants?employerName=${employerName}`)
       .then((response) => {
         // Handle the fetched applicants
         setApplicants(response.data);
@@ -44,7 +44,7 @@ const ApplicationsList = () => {
   const handleApprove = (userName, jobAppliedTo) => {
     // Make a POST request to the backend to approve the application
     axios
-      .post('http://localhost:5000/approve', { userName, jobAppliedTo })
+      .post('https://job-seeker-nb9v.onrender.com/approve', { userName, jobAppliedTo })
       .then((response) => {
         // Check if the request was successful (you can add a specific success status code)
         if (response.status === 200) {
@@ -77,7 +77,7 @@ const ApplicationsList = () => {
   const handleReject = (userName, jobAppliedTo) => {
     // Make a POST request to the backend to reject the application
     axios
-      .post('http://localhost:5000/reject', { userName, jobAppliedTo })
+      .post('https://job-seeker-nb9v.onrender.com/reject', { userName, jobAppliedTo })
       .then((response) => {
         // Check if the request was successful (you can add a specific success status code)
         if (response.status === 200) {
@@ -112,7 +112,7 @@ const ApplicationsList = () => {
   const handleRemove = (userName, jobAppliedTo) => {
     // Make a POST request to the backend to remove the application
     axios
-      .post('http://localhost:5000/api/remove-application', { userName, jobAppliedTo })
+      .post('https://job-seeker-nb9v.onrender.com/api/remove-application', { userName, jobAppliedTo })
       .then((response) => {
         // Check if the request was successful (you can add a specific success status code)
         if (response.status === 200) {
@@ -141,7 +141,7 @@ const ApplicationsList = () => {
   const handleDownloadResume = (userName) => {
     // Make a GET request to the server to download the resume file
     axios({
-      url: `http://localhost:5000/api/fetch-resume/${userName}`,
+      url: `https://job-seeker-nb9v.onrender.com/api/fetch-resume/${userName}`,
       method: 'GET',
       responseType: 'blob',
     })
