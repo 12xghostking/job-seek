@@ -26,7 +26,7 @@ const JobList = () => {
   useEffect(() => {
     // Fetch jobs from the backend when the component mounts
     axios
-      .get('http://localhost:5000/api/jobs') // Replace with your backend API URL
+      .get('https://job-seeker-nb9v.onrender.com/api/jobs') // Replace with your backend API URL
       .then((response) => {
         
         setJobs(response.data);
@@ -76,7 +76,7 @@ const JobList = () => {
 
   const handleSubmitApplication = () => {
     axios
-      .post('http://localhost:5000/api/applicants/apply', applicantDetails) // Replace with your backend API URL
+      .post('https://job-seeker-nb9v.onrender.com/api/applicants/apply', applicantDetails) // Replace with your backend API URL
       .then((response) => {
         // Handle success, e.g., show a success message or close the modal
         alert('Application submitted successfully.');
