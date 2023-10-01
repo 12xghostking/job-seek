@@ -18,7 +18,7 @@ const JobList = () => {
   useEffect(() => {
     // Fetch jobs for the particular employer
     axios
-      .get(`http://localhost:5000/api/emp/jobs?employerName=${employerName}`)
+      .get(`https://job-seeker-nb9v.onrender.com/api/emp/jobs?employerName=${employerName}`)
       .then((response) => {
         setJobs(response.data);
       })
@@ -32,7 +32,7 @@ const JobList = () => {
     const fetchTotalApplicants = async () => {
       const promises = jobs.map(async (job) => {
         try {
-          const response = await axios.get(`http://localhost:5000/api/jobs/${job.name}/applicants`);
+          const response = await axios.get(`https://job-seeker-nb9v.onrender.com/api/jobs/${job.name}/applicants`);
           const { totalApplicants } = response.data;
           setTotalApplicants((prevState) => ({
             ...prevState,
@@ -64,7 +64,7 @@ const JobList = () => {
   const closeJob = (jobName) => {
     // Send a DELETE request to remove the job
     axios
-      .delete('http://localhost:5000/api/jobs/remove', {
+      .delete('https://job-seeker-nb9v.onrender.com/api/jobs/remove', {
         data: { jobName, employerName },
       })
       .then((response) => {
