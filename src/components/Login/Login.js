@@ -18,7 +18,7 @@ const Login = () => {
       e.preventDefault();
   
       try {
-        const response = await axios.post('http://localhost:5000/api/login', {
+        const response = await axios.post('https://job-seeker-nb9v.onrender.com/api/login', {
           role,
           email,
           password,
