@@ -8,6 +8,9 @@
     "dev": "nodemon server.js",
     "test": "echo \"Tests passed\" && exit 0"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "keywords": [
     "job-board",
     "express",
