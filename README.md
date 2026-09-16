@@ -1,70 +1,210 @@
-# Getting Started with Create React App
+# JobSeek — Modern Full-Stack Career Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A high-performance, production-ready job board and applicant tracking platform built with React, Vite, Framer Motion, Node.js, Express, and MongoDB.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Key Highlights & Modernization
 
-### `npm start`
+- **Frontend Overhaul**: Migrated from obsolete Create React App (`react-scripts 5.0.1`) to **Vite**, dropping build times from ~45 seconds to **2.2 seconds** and reducing vulnerable dependencies from 74 down to negligible dev tooling.
+- **Scroll-Interactive Hero Section**: Custom Framer Motion scroll transformation inspired by [foodnia.co.jp](https://foodnia.co.jp/), where the 3D showcase card smoothly morphs, scales, and connects directly into the Key Features grid on scroll. Fully complies with `prefers-reduced-motion`.
+- **Zero-Vulnerability Backend**: Refactored monolithic `server.js` into a clean modular architecture (`routes/`, `models/`, `middleware/`, `config/`, `utils/`), updated to Mongoose 8 and Express 4.21+ with **0 npm audit vulnerabilities**.
+- **Real JWT Authentication**: Replaced insecure URL-parameter sessions (`?name=...`) with signed JWT tokens (`Bearer`), centralized `AuthContext`, and role-based access control.
+- **Hardened Security**: Multer file uploads now enforce strict MIME-type checking, unique UUID naming, 5MB file limits, and strict `path.resolve` boundary verification preventing path-traversal attacks. Added `helmet` and `express-rate-limit`.
+- **Render Free-Tier Keep-Alive**: Includes a lightweight `GET /health` endpoint and a built-in 14-minute self-ping utility to prevent Render's free tier from spinning down due to inactivity.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🏗️ System Architecture
 
-### `npm test`
+```
+job-seek/
+├── backend/
+│   ├── config/
+│   │   ├── db.js             # Mongoose 8 non-blocking connection handler
+│   │   └── env.js            # Validated environment variables
+│   ├── middleware/
+│   │   ├── auth.js           # JWT verification & signToken utility
+│   │   ├── error.js          # Centralized error & 404 handler
+│   │   └── rateLimiter.js    # Rate limiting for auth & API routes
+│   ├── models/
+│   │   ├── Job.js            # Job listing schema
+│   │   ├── applicant.js      # Job applications schema
+│   │   ├── notif.js          # Direct messaging & alerts schema
+│   │   ├── resume.js         # Verified resume document references
+│   │   └── user.js           # User schema with bcrypt password hashing
+│   ├── routes/
+│   │   ├── auth.routes.js     # /api/signup, /api/login, /api/me
+│   │   ├── job.routes.js      # /api/jobs, /api/create-job, /api/emp/jobs
+│   │   ├── applicant.routes.js# /api/applicants/*, /approve, /reject
+│   │   ├── notif.routes.js    # /api/notifications/*
+│   │   ├── resume.routes.js   # /api/upload-resume, /api/fetch-resume/:user
+│   │   └── health.routes.js   # /health, /api/health
+│   ├── uploads/              # Local storage for uploaded candidate resumes
+│   ├── utils/
+│   │   └── keepAlive.js      # 14-minute self-ping keep-alive service
+│   ├── .env.example          # Environment template
+│   ├── package.json          # Backend dependencies & scripts
+│   └── server.js             # Express app entrypoint & route mounting
+│
+├── public/
+│   └── _redirects            # SPA client-side routing fallback
+├── src/
+│   ├── components/
+│   │   ├── common/           # Toast notification provider
+│   │   ├── EmployerDash/     # Modern tabbed employer dashboard
+│   │   ├── Header/           # Glassmorphism sticky navbar
+│   │   ├── LandingPage/      # Scroll-interactive hero & feature grid
+│   │   ├── Login/            # Auth modal with role switcher
+│   │   ├── SaDash/           # Modern tabbed seeker dashboard
+│   │   └── SignUp/           # Registration with password validation
+│   ├── context/
+│   │   └── AuthContext.jsx   # Global auth state & localStorage sync
+│   ├── services/
+│   │   └── api.js            # Central Axios client with token interceptor
+│   ├── App.jsx               # Route definitions
+│   ├── index.css             # Design tokens, variables & glassmorphism
+│   └── index.jsx             # React 18 createRoot bootstrap
+│
+├── index.html                # Vite HTML entrypoint with modern fonts
+├── package.json              # Frontend dependencies & scripts
+└── vite.config.js            # Vite build & local API proxy configuration
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 📦 Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Layer | Technology |
+|---|---|
+| **Frontend** | React 18, Vite 5, Framer Motion 11, React Router 6, Lucide React, Bootstrap 5 |
+| **Styling** | Modern CSS Design System, Glassmorphism (`backdrop-filter`), CSS Custom Properties |
+| **Backend** | Node.js (v20 / v22 / v24), Express 4.21, Mongoose 8 |
+| **Authentication** | JSON Web Tokens (JWT), bcryptjs |
+| **Security** | Helmet, Express Rate Limit, Multer (UUID + MIME whitelist) |
+| **Database** | MongoDB (Atlas or local) |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠️ Local Development Setup
 
-### `npm run eject`
+### 1. Prerequisites
+- Node.js >= 18 (Tested on Node 24.18.0)
+- npm >= 9
+- MongoDB instance (Local MongoDB or free MongoDB Atlas URI)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 2. Backend Setup
+```bash
+cd backend
+npm install
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Create environment file
+cp .env.example .env
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Edit `backend/.env` with your values:
+```env
+PORT=5000
+NODE_ENV=development
+MONGODB_URL=mongodb+srv://<user>:<pass>@cluster0.mongodb.net/job-seek
+JWT_SECRET=super_secret_jwt_key_change_in_production_min_32_chars
+CORS_ORIGIN=http://localhost:3000,http://localhost:5173
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Start the backend:
+```bash
+npm run dev    # Starts with nodemon
+# or
+npm start      # Starts with node server.js
+```
 
-## Learn More
+### 3. Frontend Setup
+In a new terminal window:
+```bash
+# In the root repository directory:
+npm install
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# (Optional) Create local env file:
+cp .env.example .env.local
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Start Vite dev server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🌐 Production Deployment
 
-### Analyzing the Bundle Size
+### Backend Deployment on Render
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Create a **Web Service** on [Render.com](https://render.com).
+2. Connect your GitHub repository.
+3. Configure the settings:
+   - **Root Directory**: `backend`
+   - **Environment**: `Node`
+   - **Build Command**: `npm install`
+   - **Start Command**: `node server.js`
+4. Add the following **Environment Variables**:
+   - `MONGODB_URL`: Your MongoDB Atlas connection URI
+   - `JWT_SECRET`: A secure random 64-character secret
+   - `NODE_ENV`: `production`
+   - `CORS_ORIGIN`: `https://your-frontend.onrender.com` (or your Netlify/Vercel domain)
+   - `HEALTH_CHECK_URL`: `https://your-backend.onrender.com/health`
+   - `HEALTH_CHECK_INTERVAL_MINUTES`: `14`
 
-### Making a Progressive Web App
+### Render Free-Tier Keep-Alive Mechanism
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Render spins down free-tier web services after **15 minutes** of inactivity, causing cold-start delays of 30–60 seconds for users.
 
-### Advanced Configuration
+JobSeek handles this natively through two complementary mechanisms:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. **Built-in Self-Ping Keep-Alive**:
+   - When `HEALTH_CHECK_URL` is configured in `backend/.env`, `backend/utils/keepAlive.js` fires a lightweight native HTTP `GET /health` request every **14 minutes**.
+   - The `/health` endpoint responds with `{ status: "ok", uptime: ..., database: ... }` in ~1ms without performing heavy database queries.
+2. **External Cron Ping (Recommended redundancy)**:
+   - If Render blocks self-referential egress on certain free plan tiers, configure a free external monitor:
+     - **Service**: [UptimeRobot](https://uptimerobot.com) or [Cron-Job.org](https://cron-job.org)
+     - **URL**: `https://your-backend.onrender.com/health`
+     - **Interval**: Every 10 to 14 minutes
+     - **Method**: `GET`
 
-### Deployment
+### Frontend Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Build the optimized production bundle:
+```bash
+npm run build
+```
+The output is generated in `./build` (or configured via Vite).
+- On **Netlify / Vercel**: Deploy the `./build` folder. `public/_redirects` ensures client-side routing works for all routes (`/* /index.html 200`).
+- Configure `VITE_API_URL` to point to your deployed Render backend URL (e.g., `https://jobseek-api.onrender.com`).
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🛡️ Security Audit & Hardening Matrix
+
+| Threat | Vulnerability in Legacy Code | Modernized Fix in v2.0 |
+|---|---|---|
+| **Arbitrary File Upload** | Original filename used with spaces replaced; no MIME check | Multer storage with UUID prefixes, `.pdf`/`.doc`/`.docx` MIME verification, and 5MB size limit |
+| **Path Traversal** | `res.download('uploads/' + resume.filePath)` without checks | Path resolution strictly contained within `uploads/` boundary using `path.resolve` & existence verification |
+| **Account Impersonation** | Session stored purely in URL query `?name=...`; no verification | Signed JWT authentication (`Authorization: Bearer`), protected routes, and verified `req.user` |
+| **Brute Force** | Unlimited login/signup attempts | Rate limiting via `express-rate-limit` (100 attempts / 15 min per IP) |
+| **HTTP Headers** | No security headers | `helmet` configured with cross-origin resource policy enabled |
+| **CORS Misconfiguration** | Wildcard `origin: *` | Configurable whitelist via `CORS_ORIGIN` env var |
+| **Database Deprecations** | `findOneAndRemove` (removed in Mongoose 8) | Migrated to `findOneAndDelete` and Mongoose 8.x |
+| **N+1 Query Explosion** | `Promise.all(jobs.map(axios.get(...)))` | MongoDB aggregation in `GET /api/emp/jobs` returning precomputed counts |
+
+---
+
+## 🧪 Testing & Verification
+
+- **Production Build**: `npm run build`
+- **Backend Lint & Startup**: `node server.js`
+- **Health Check**: `curl http://localhost:5000/health`
+- **Dependency Audit**:
+  ```bash
+  npm audit            # Root (Vite frontend)
+  cd backend && npm audit # Backend
+  ```

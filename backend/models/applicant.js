@@ -4,6 +4,7 @@ const applicantSchema = new mongoose.Schema({
   userName: {
     type: String,
     required: true,
+    trim: true,
   },
   skills: {
     type: String,
@@ -16,10 +17,12 @@ const applicantSchema = new mongoose.Schema({
   jobAppliedTo: {
     type: String,
     required: true,
+    trim: true,
   },
   employerName: {
     type: String,
     required: true,
+    trim: true,
   },
   yearsOfExperience: {
     type: String,
@@ -31,6 +34,6 @@ const applicantSchema = new mongoose.Schema({
     enum: ['in review', 'approved', 'rejected'],
     default: 'in review',
   },
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model('Applicant', applicantSchema);
+module.exports = mongoose.models.Applicant || mongoose.model('Applicant', applicantSchema);

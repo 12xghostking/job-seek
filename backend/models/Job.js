@@ -4,10 +4,12 @@ const jobSchema = new mongoose.Schema({
   employerName: {
     type: String,
     required: true,
+    trim: true,
   },
   name: {
     type: String,
     required: true,
+    trim: true,
   },
   skillsRequired: {
     type: String,
@@ -31,6 +33,6 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model('Job', jobSchema);
+module.exports = mongoose.models.Job || mongoose.model('Job', jobSchema);

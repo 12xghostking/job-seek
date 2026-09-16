@@ -8,13 +8,19 @@ const notificationSchema = new mongoose.Schema({
   receivedFrom: {
     type: String,
     required: true,
+    trim: true,
   },
   receivedBy: {
     type: String,
     required: true,
+    trim: true,
   },
-});
+  read: {
+    type: Boolean,
+    default: false,
+  },
+}, { timestamps: true });
 
-const NotificationModel = mongoose.model('Notification', notificationSchema);
+const NotificationModel = mongoose.models.Notification || mongoose.model('Notification', notificationSchema);
 
 module.exports = NotificationModel;
